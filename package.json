@@ -6,6 +6,7 @@
     "start-service-users": "nodemon services/users/index.js",
     "start-service-transfers": "nodemon services/transfers/index.js",
     "start-service-wallets": "nodemon services/wallets/index.js",
+    "start-service-files": "nodemon services/files/index.js",
     "start-services": "concurrently \"npm:start-service-*\"",
     "postinstall": "lerna bootstrap"
   },

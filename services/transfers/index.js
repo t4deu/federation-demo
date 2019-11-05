@@ -2,11 +2,10 @@ const { ApolloServer, gql } = require('apollo-server');
 const { buildFederatedSchema } = require('@apollo/federation');
 
 const typeDefs = gql`
-  type Transfer @key(fields: "id") {
+  type Transfer {
     id: ID!
-    username: User @provides(fields: "name")
+    user: User @provides(fields: "name")
     walletId: ID!
-    company: String!
     status: String
     value: Int
   }
@@ -25,7 +24,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Transfer: {
-    username(transfer) {
+    user(transfer) {
       return { __typename: 'User', company: transfer.company };
     },
   },
@@ -33,11 +32,7 @@ const resolvers = {
     transfers(user) {
       return transfers.filter((transfer) => transfer.company === user.company);
     },
-    numberOfTransfers(user) {
-      return transfers.filter((transfer) => transfer.company === user.company)
-        .length;
-    },
-    username(user) {
+    name(user) {
       const found = usernames.find(
         (username) => username.company === user.company
       );
@@ -83,8 +78,8 @@ const transfers = [
 ];
 
 const usernames = [
-  { company: '1', username: 'Ada Lovelace' },
-  { company: '2', username: 'Alan Turing' },
+  { company: '17667787000142', username: 'Ada Lovelace' },
+  { company: '81193162000195', username: 'Alan Turing' },
 ];
 
 const server = new ApolloServer({

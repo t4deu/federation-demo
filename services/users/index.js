@@ -16,7 +16,8 @@ const typeDefs = gql`
     company: String!
   }
 
-  type UserActions {
+  type UserActions @key(fields: "uid") {
+    uid: ID!
     updateName(input: UpdateNameInput): User
   }
 
@@ -31,24 +32,14 @@ const resolvers = {
       return users[0];
     },
   },
-  Mutation: {
-    user() {
-      return users[0];
-    },
-  },
   User: {
     __resolveReference(object) {
+      if (object.company) {
+        return users.find((user) => user.company === object.company);
+      }
       return users.find((user) => user.uid === object.uid);
     },
   },
-  UserActions: {
-    updateName(user, {input}) {
-      return {
-        ...user,
-        ...input,
-      }
-    }
-  }
 };
 
 const users = [
