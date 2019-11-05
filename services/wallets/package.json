@@ -1,5 +1,5 @@
 {
-  "name": "reviews",
+  "name": "wallets",
   "scripts": {
     "start": "node index.js"
   },

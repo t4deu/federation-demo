@@ -1,5 +1,5 @@
 {
-  "name": "products",
+  "name": "users",
   "scripts": {
     "start": "node index.js"
   },
