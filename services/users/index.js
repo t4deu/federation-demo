@@ -6,10 +6,22 @@ const typeDefs = gql`
     user: User
   }
 
+  extend type Mutation {
+    user: UserActions
+  }
+
   type User @key(fields: "uid") @key(fields: "company") {
     uid: ID!
     name: String
     company: String!
+  }
+
+  type UserActions {
+    updateName(input: UpdateNameInput): User
+  }
+
+  input UpdateNameInput {
+    name: String!
   }
 `;
 
@@ -19,11 +31,24 @@ const resolvers = {
       return users[0];
     },
   },
+  Mutation: {
+    user() {
+      return users[0];
+    },
+  },
   User: {
     __resolveReference(object) {
       return users.find((user) => user.uid === object.uid);
     },
   },
+  UserActions: {
+    updateName(user, {input}) {
+      return {
+        ...user,
+        ...input,
+      }
+    }
+  }
 };
 
 const users = [
